@@ -1,0 +1,45 @@
+@WebServlet("/registerServlet")
+
+public class <u>RegisterServlet</u> extends HttpServlet {
+     private UserDao userDao = new UserDao();
+     @Override
+     protected void doGet(HttpServletRequest req, 
+HttpServletResponse resp) throws ServletException, IOException {
+           // TODO Auto-generated method stub
+           this.doPost(req, resp);
+
+     }
+
+
+
+     @Override
+     protected void doPost(HttpServletRequest req, 
+HttpServletResponse resp) throws ServletException, IOException {
+           // TODO Auto-generated method stub
+           req.setCharacterEncoding("UTF-8");
+           // Получить регистрационные данные
+           String userName = req.getParameter("username");
+           String passWord = req.getParameter("password");
+           String email = req.getParameter("email");
+           String gender = req.getParameter("gender");
+
+           // Пакет для пользователя
+           User user = new User();
+           user.setUsername(userName);
+           user.setPassword(passWord);
+           user.setEmail(email);
+           user.setGender(gender);
+           // зарегистрировано
+           try {
+                userDao.register(user);
+                // Перейти к странице входа после успешной регистрации
+                resp.sendRedirect(req.getContextPath() + 
+"/login.jsp");
+           } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                resp.setContentType("text/html;charset=utf-8");
+                resp.getWriter().write(«Система работает ненормально, обратитесь к администратору 
+10086");
+           }
+     }
